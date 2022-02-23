@@ -5,7 +5,7 @@ import os
 def make_generator(path, n_files, batch_size):
     epoch_count = [1]
     def get_epoch():
-        img_list = os.listdir(path)
+        # img_list = os.listdir(path)
 
         images = np.zeros((batch_size, 3, 64, 64), dtype='int32')
         files = list(range(n_files))
@@ -15,8 +15,8 @@ def make_generator(path, n_files, batch_size):
         print("Not Again!!!!!!!!!!")
         epoch_count[0] += 1
         for n, i in enumerate(files):
-            # image = scipy.misc.imread("{}{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
-            image = scipy.misc.imread("{}{}".format(path, img_list[i]))
+            image = scipy.misc.imread("{}{}.png".format(path, str(i+1).zfill(7)))
+            # image = scipy.misc.imread("{}{}".format(path, img_list[i]))
             # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             images[n % batch_size] = image.transpose(2,0,1)
             if n > 0 and n % batch_size == 0:
