@@ -18,6 +18,14 @@ import tflib as lib
 import tflib.ops.linear
 import tflib.plot
 
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
+
+
 MODE = 'wgan-gp' # wgan or wgan-gp
 DATASET = '8gaussians' # 8gaussians, 25gaussians, swissroll
 DIM = 512 # Model dimensionality
