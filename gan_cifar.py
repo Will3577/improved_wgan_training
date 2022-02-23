@@ -174,14 +174,14 @@ def generate_image(frame, true_dist):
 
 # For calculating inception score
 samples_100 = Generator(100)
-def get_inception_score():
-    all_samples = []
-    for i in xrange(10):
-        all_samples.append(session.run(samples_100))
-    all_samples = np.concatenate(all_samples, axis=0)
-    all_samples = ((all_samples+1.)*(255./2)).astype('int32')
-    all_samples = all_samples.reshape((-1, 3, 32, 32)).transpose(0,2,3,1)
-    return lib.inception_score.get_inception_score(all_samples)
+# def get_inception_score():
+#     all_samples = []
+#     for i in xrange(10):
+#         all_samples.append(session.run(samples_100))
+#     all_samples = np.concatenate(all_samples, axis=0)
+#     all_samples = ((all_samples+1.)*(255./2)).astype('int32')
+#     all_samples = all_samples.reshape((-1, 3, 32, 32)).transpose(0,2,3,1)
+#     return lib.inception_score.get_inception_score(list(all_samples))
 
 # Dataset iterators
 train_gen, dev_gen = lib.cifar10.load(BATCH_SIZE, data_dir=DATA_DIR)
@@ -215,9 +215,9 @@ with tf.Session() as session:
         lib.plot.plot('time', time.time() - start_time)
 
         # Calculate inception score every 1K iters
-        if iteration % 1000 == 999:
-            inception_score = get_inception_score()
-            lib.plot.plot('inception score', inception_score[0])
+        # if iteration % 1000 == 999:
+        #     inception_score = get_inception_score()
+        #     lib.plot.plot('inception score', inception_score[0])
 
         # Calculate dev loss and generate samples every 100 iters
         if iteration % 100 == 99:
