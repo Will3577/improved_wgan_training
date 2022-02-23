@@ -19,15 +19,15 @@ def make_generator(path, n_files, batch_size):
 
 def load(batch_size, data_dir='/home/ishaan/data/imagenet64'):
     return (
-        make_generator(data_dir+'/train_64x64', 1281149, batch_size),
-        make_generator(data_dir+'/valid_64x64', 49999, batch_size)
+        make_generator(data_dir+'/train_64x64/train_64x64', 1281149, batch_size),
+        make_generator(data_dir+'/valid_64x64/valid_64x64', 49999, batch_size)
     )
 
 if __name__ == '__main__':
     train_gen, valid_gen = load(64)
     t0 = time.time()
     for i, batch in enumerate(train_gen(), start=1):
-        print "{}\t{}".format(str(time.time() - t0), batch[0][0,0,0,0])
+        print ("{} {}".format(str(time.time() - t0), batch[0][0,0,0,0]))
         if i == 1000:
             break
         t0 = time.time()
