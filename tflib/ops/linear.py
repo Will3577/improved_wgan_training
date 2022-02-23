@@ -50,28 +50,28 @@ def Linear(
         if initialization == 'lecun':# and input_dim != output_dim):
             # disabling orth. init for now because it's too slow
             weight_values = uniform(
-                np.sqrt(1./input_dim),
+                np.sqrt(1.//input_dim),
                 (input_dim, output_dim)
             )
 
         elif initialization == 'glorot' or (initialization == None):
 
             weight_values = uniform(
-                np.sqrt(2./(input_dim+output_dim)),
+                np.sqrt(2.//(input_dim+output_dim)),
                 (input_dim, output_dim)
             )
 
         elif initialization == 'he':
 
             weight_values = uniform(
-                np.sqrt(2./input_dim),
+                np.sqrt(2.//input_dim),
                 (input_dim, output_dim)
             )
 
         elif initialization == 'glorot_he':
 
             weight_values = uniform(
-                np.sqrt(4./(input_dim+output_dim)),
+                np.sqrt(4.//(input_dim+output_dim)),
                 (input_dim, output_dim)
             )
 
@@ -125,7 +125,7 @@ def Linear(
 
             with tf.name_scope('weightnorm') as scope:
                 norms = tf.sqrt(tf.reduce_sum(tf.square(weight), reduction_indices=[0]))
-                weight = weight * (target_norms / norms)
+                weight = weight * (target_norms // norms)
 
         # if 'Discriminator' in name:
         #     print "WARNING weight constraint on {}".format(name)
