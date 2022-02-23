@@ -482,7 +482,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
     for device_index, (device, real_data_conv) in enumerate(zip(DEVICES, split_real_data_conv)):
         with tf.device(device):
-
+            print(real_data_conv.shape)
             real_data = tf.reshape(2*((tf.cast(real_data_conv, tf.float32)/255.)-.5), [BATCH_SIZE//len(DEVICES), OUTPUT_DIM])
             fake_data = Generator(BATCH_SIZE/len(DEVICES))
 
