@@ -181,7 +181,7 @@ def get_inception_score():
     all_samples = np.concatenate(all_samples, axis=0)
     all_samples = ((all_samples+1.)*(255./2)).astype('int32')
     all_samples = all_samples.reshape((-1, 3, 32, 32)).transpose(0,2,3,1)
-    return lib.inception_score.get_inception_score(list(all_samples))
+    return lib.inception_score.get_inception_score(all_samples)
 
 # Dataset iterators
 train_gen, dev_gen = lib.cifar10.load(BATCH_SIZE, data_dir=DATA_DIR)
