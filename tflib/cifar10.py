@@ -3,7 +3,7 @@ import numpy as np
 import os
 import urllib
 import gzip
-import cPickle as pickle
+import pickle
 
 try:
     # Python 2
@@ -11,7 +11,7 @@ try:
 except NameError:
     # Python 3, xrange is now named range
     xrange = range
-    
+
 def unpickle(file):
     fo = open(file, 'rb')
     dict = pickle.load(fo)
