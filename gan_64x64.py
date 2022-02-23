@@ -227,8 +227,11 @@ def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     output = ResidualBlock('Generator.Res4', 2*dim, 1*dim, 3, output, resample='up')
 
     output = Normalize('Generator.OutputN', [0,2,3], output)
+    print(output.get_shape())
     output = tf.nn.relu(output)
+    print(output.get_shape())
     output = lib.ops.conv2d.Conv2D('Generator.Output', 1*dim, 3, 3, output)
+    print(output.get_shape())
     output = tf.tanh(output)
     print(output.get_shape())
     return tf.reshape(output, [-1, OUTPUT_DIM])
