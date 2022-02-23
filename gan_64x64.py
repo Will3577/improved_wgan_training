@@ -595,7 +595,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                 yield images
 
     # Save a batch of ground-truth samples
-    _x = inf_train_gen().next()
+    _x = next(inf_train_gen())
     _x_r = session.run(real_data, feed_dict={real_data_conv: _x[:BATCH_SIZE//N_GPUS]})
     _x_r = ((_x_r+1.)*(255.99//2)).astype('int32')
     lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, 64, 64)), 'samples_groundtruth.png')
