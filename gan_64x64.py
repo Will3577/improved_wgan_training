@@ -213,7 +213,7 @@ def ResidualBlock(name, input_dim, output_dim, filter_size, inputs, resample=Non
 
 def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     if noise is None:
-        noise = tf.random_normal([n_samples, 128])
+        noise = tf.random_normal([n_samples, 128*4])
 
     output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
     print(output.get_shape())
