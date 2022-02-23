@@ -36,10 +36,10 @@ except NameError:
     xrange = range
 
 MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
-DIM = 128#64 # Model dimensionality
+DIM = 64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
-BATCH_SIZE = 32# 64 # Batch size. Must be a multiple of N_GPUS
+BATCH_SIZE = 64 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 OUTPUT_DIM = DIM*DIM*3 # Number of pixels in each image
@@ -211,12 +211,12 @@ def ResidualBlock(name, input_dim, output_dim, filter_size, inputs, resample=Non
 
 def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     if noise is None:
-        # noise = tf.random_normal([n_samples, 128])
-        noise = tf.random_normal([n_samples, 256])
+        noise = tf.random_normal([n_samples, 128])
+        # noise = tf.random_normal([n_samples, 256])
 
 
-    # output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
-    output = lib.ops.linear.Linear('Generator.Input', 256, 4*4*8*dim, noise)
+    output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
+    # output = lib.ops.linear.Linear('Generator.Input', 256, 4*4*8*dim, noise)
 
     output = tf.reshape(output, [-1, 8*dim, 4, 4])
 
