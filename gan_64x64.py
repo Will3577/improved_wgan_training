@@ -228,7 +228,7 @@ def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     output = tf.nn.relu(output)
     output = lib.ops.conv2d.Conv2D('Generator.Output', 1*dim, 3, 3, output)
     output = tf.tanh(output)
-
+    print(output.get_shape())
     return tf.reshape(output, [-1, OUTPUT_DIM])
 
 def FCGenerator(n_samples, noise=None, FC_DIM=512):
