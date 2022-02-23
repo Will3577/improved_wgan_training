@@ -14,7 +14,7 @@ try:
 except NameError:
     # Python 3, xrange is now named range
     xrange = range
-    
+
 import tflib as lib
 import tflib.ops.linear
 import tflib.ops.conv2d
@@ -28,7 +28,7 @@ import tflib.plot
 # Download CIFAR-10 (Python version) at
 # https://www.cs.toronto.edu/~kriz/cifar.html and fill in the path to the
 # extracted files here!
-DATA_DIR = './cifar-10-batches-py'
+DATA_DIR = './cifar-10-batches-py/'
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_cifar.py!')
 
