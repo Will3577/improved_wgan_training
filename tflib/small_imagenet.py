@@ -15,7 +15,7 @@ def make_generator(path, n_files, batch_size):
         for n, i in enumerate(files):
             # image = scipy.misc.imread("{}/{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
             image = scipy.misc.imread("{}/{}.png".format(path, img_list[i]))
-            print(image.shape)
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             images[n % batch_size] = image.transpose(2,0,1)
             if n > 0 and n % batch_size == 0:
                 yield (images,)
