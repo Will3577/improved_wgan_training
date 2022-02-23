@@ -592,7 +592,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     def generate_image(iteration):
         samples = session.run(all_fixed_noise_samples)
         samples = ((samples+1.)*(255.99/2)).astype('int32')
-        lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), SAVE_FOLDER+'samples_{}.png'.format(iteration))
+        lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, IMG_SIZE, IMG_SIZE)), SAVE_FOLDER+'samples_{}.png'.format(iteration))
 
 
     # Dataset iterator
