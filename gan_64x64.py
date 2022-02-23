@@ -23,8 +23,8 @@ import tflib.plot
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
-DATA_DIR = './monuseg_64/'
-SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/monuseg_gan/'
+DATA_DIR = './monuseg_256/'
+SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
 
