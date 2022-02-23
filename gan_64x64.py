@@ -39,7 +39,7 @@ OUTPUT_DIM = DIM*DIM*3 # Number of pixels in each image
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
-DATA_DIR = './monuseg_'+DIM+'/'
+DATA_DIR = './monuseg_'+str(DIM)+'/'
 SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
