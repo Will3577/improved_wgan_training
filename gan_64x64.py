@@ -588,7 +588,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
 
     # Dataset iterator
-    train_gen, dev_gen = lib.small_imagenet.load(BATCH_SIZE, data_dir=DATA_DIR)
+    train_gen, dev_gen = lib.small_imagenet.load(BATCH_SIZE, data_dir=DATA_DIR, DIM)
 
     def inf_train_gen():
         while True:
