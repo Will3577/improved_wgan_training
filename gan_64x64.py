@@ -576,10 +576,10 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     for device_index, device in enumerate(DEVICES):
         n_samples = BATCH_SIZE // len(DEVICES)
         all_fixed_noise_samples.append(Generator(n_samples, noise=fixed_noise[device_index*n_samples:(device_index+1)*n_samples]))
-    if tf.__version__.startswith('1.'):
-        all_fixed_noise_samples = tf.concat(all_fixed_noise_samples, axis=0)
-    else:
-        all_fixed_noise_samples = tf.concat(0, all_fixed_noise_samples)
+    # if tf.__version__.startswith('1.'):
+    all_fixed_noise_samples = tf.concat(all_fixed_noise_samples, axis=0)
+    # else:
+    #     all_fixed_noise_samples = tf.concat(0, all_fixed_noise_samples)
     def generate_image(iteration):
         samples = session.run(all_fixed_noise_samples)
         samples = ((samples+1.)*(255.99/2)).astype('int32')
