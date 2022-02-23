@@ -580,6 +580,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     else:
         all_fixed_noise_samples = tf.concat(0, all_fixed_noise_samples)
     def generate_image(iteration):
+        print("testing")
         samples = session.run(all_fixed_noise_samples)
         samples = ((samples+1.)*(255.99/2)).astype('int32')
         lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'samples_{}.png'.format(iteration))
