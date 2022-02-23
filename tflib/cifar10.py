@@ -5,6 +5,13 @@ import urllib
 import gzip
 import cPickle as pickle
 
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
+    
 def unpickle(file):
     fo = open(file, 'rb')
     dict = pickle.load(fo)
