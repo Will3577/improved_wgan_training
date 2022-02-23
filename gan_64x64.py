@@ -23,7 +23,7 @@ import tflib.plot
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
-DATA_DIR = './monuseg_256/'
+DATA_DIR = './monuseg_128/'
 SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
@@ -36,13 +36,13 @@ except NameError:
     xrange = range
 
 MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
-DIM = 256#64 # Model dimensionality
+DIM = 128#64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
-BATCH_SIZE = 8# 64 # Batch size. Must be a multiple of N_GPUS
+BATCH_SIZE = 32# 64 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
-OUTPUT_DIM = DIM*DIM*3 # Number of pixels in each iamge
+OUTPUT_DIM = DIM*DIM*3 # Number of pixels in each image
 
 lib.print_model_settings(locals().copy())
 

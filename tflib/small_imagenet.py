@@ -24,8 +24,8 @@ def make_generator(path, n_files, batch_size, dim):
 
 def load(batch_size, data_dir='/content/improved_wgan_training/imagenet_64/', dim=64):
     return (
-        make_generator(data_dir+'train_256/', 431, batch_size, dim),
-        make_generator(data_dir+'val_256/', 49, batch_size, dim)
+        make_generator(data_dir+'train_'+str(dim)+'/', 431, batch_size, dim),
+        make_generator(data_dir+'val_'+str(dim)+'/', 49, batch_size, dim)
         # make_generator(data_dir+'train_64x64/train_64x64/', 6880, batch_size),
         # make_generator(data_dir+'val_64x64/val_64x64/', 800, batch_size)
     )
