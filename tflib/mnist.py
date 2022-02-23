@@ -3,7 +3,7 @@ import numpy
 import os
 import urllib
 import gzip
-import pickle 
+# import pickle 
 # import cPickle as pickle
 
 def mnist_generator(data, batch_size, n_labelled, limit=None):
