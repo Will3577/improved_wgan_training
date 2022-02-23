@@ -24,8 +24,8 @@ def flush():
 
 	for name, vals in _since_last_flush.items():
 		# name = list(name)
-		print(type(name),name,type(vals.values()),vals.values())
-		prints.append("{} {}".format(name, np.mean(vals.values())))
+		# print(type(name),name,type(vals.values()),vals.values())
+		prints.append("{} {}".format(name, np.mean(list(vals.values()))))
 		_since_beginning[name].update(vals)
 		print(_since_beginning[name].keys())
 
