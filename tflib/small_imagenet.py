@@ -2,11 +2,11 @@ import numpy as np
 import scipy.misc
 import time
 import os
-def make_generator(path, n_files, batch_size, dim):
+def make_generator(path, n_files, batch_size, img_size):
     epoch_count = [1]
     img_list = os.listdir(path)
     def get_epoch():
-        images = np.zeros((batch_size, 3, dim, dim), dtype='int32')
+        images = np.zeros((batch_size, 3, img_size, img_size), dtype='int32')
         files = list(range(n_files))
         random_state = np.random.RandomState(epoch_count[0])
         # print(files)
@@ -22,10 +22,10 @@ def make_generator(path, n_files, batch_size, dim):
                 yield (images,)
     return get_epoch
 
-def load(batch_size, data_dir='/content/improved_wgan_training/imagenet_64/', dim=64):
+def load(batch_size, data_dir='/content/improved_wgan_training/imagenet_64/', img_size=64):
     return (
-        make_generator(data_dir+'train_'+str(dim)+'/', 431, batch_size, dim),
-        make_generator(data_dir+'val_'+str(dim)+'/', 49, batch_size, dim)
+        make_generator(data_dir+'train_'+str(img_size)+'/', 431, batch_size, img_size),
+        make_generator(data_dir+'val_'+str(img_size)+'/', 49, batch_size, img_size)
         # make_generator(data_dir+'train_64x64/train_64x64/', 6880, batch_size),
         # make_generator(data_dir+'val_64x64/val_64x64/', 800, batch_size)
     )

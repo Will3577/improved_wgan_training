@@ -21,6 +21,13 @@ import tflib.small_imagenet
 import tflib.ops.layernorm
 import tflib.plot
 
+# Download 64x64 ImageNet at http://image-net.org/small/download.php and
+# fill in the path to the extracted files here!
+DATA_DIR = './monuseg_256/'
+SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
+if len(DATA_DIR) == 0:
+    raise Exception('Please specify path to data directory in gan_64x64.py!')
+
 try:
     # Python 2
     xrange
@@ -35,15 +42,8 @@ N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 64 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
-OUTPUT_DIM = DIM*DIM*3 # Number of pixels in each image
-
-# Download 64x64 ImageNet at http://image-net.org/small/download.php and
-# fill in the path to the extracted files here!
-DATA_DIR = './monuseg_'+str(DIM)+'/'
-SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
-if len(DATA_DIR) == 0:
-    raise Exception('Please specify path to data directory in gan_64x64.py!')
-
+IMG_SIZE = 64
+OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each iamge
 
 lib.print_model_settings(locals().copy())
 
@@ -213,12 +213,8 @@ def ResidualBlock(name, input_dim, output_dim, filter_size, inputs, resample=Non
 def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     if noise is None:
         noise = tf.random_normal([n_samples, 128])
-        # noise = tf.random_normal([n_samples, 256])
-
 
     output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
-    # output = lib.ops.linear.Linear('Generator.Input', 256, 4*4*8*dim, noise)
-
     output = tf.reshape(output, [-1, 8*dim, 4, 4])
 
     output = ResidualBlock('Generator.Res1', 8*dim, 8*dim, 3, output, resample='up')
@@ -479,7 +475,7 @@ Generator, Discriminator = GeneratorAndDiscriminator()
 
 with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
-    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, DIM, DIM])
+    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 64, 64])
     # print(tf.shape(all_real_data_conv))
     # if tf.__version__.startswith('1.'):
     split_real_data_conv = tf.split(all_real_data_conv, len(DEVICES))
@@ -509,7 +505,6 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                     minval=0.,
                     maxval=1.
                 )
-                print(tf.shape(fake_data)== tf.shape(real_data))
                 differences = fake_data - real_data
                 interpolates = real_data + (alpha*differences)
                 gradients = tf.gradients(Discriminator(interpolates), [interpolates])[0]
@@ -594,7 +589,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
 
     # Dataset iterator
-    train_gen, dev_gen = lib.small_imagenet.load(BATCH_SIZE, data_dir=DATA_DIR, dim=DIM)
+    train_gen, dev_gen = lib.small_imagenet.load(BATCH_SIZE, data_dir=DATA_DIR, img_size=IMG_SIZE)
 
     def inf_train_gen():
         while True:
@@ -605,7 +600,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     _x = next(inf_train_gen())
     _x_r = session.run(real_data, feed_dict={real_data_conv: _x[:BATCH_SIZE//N_GPUS]})
     _x_r = ((_x_r+1.)*(255.99//2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, DIM, DIM)), SAVE_FOLDER+'samples_groundtruth.png')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, 64, 64)), SAVE_FOLDER+'samples_groundtruth.png')
 
 
     # Train loop
