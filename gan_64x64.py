@@ -215,7 +215,7 @@ def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     if noise is None:
         noise = tf.random_normal([n_samples, 128*4])
 
-    output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
+    output = lib.ops.linear.Linear('Generator.Input', 128*4, 4*4*8*dim, noise)
     print(output.get_shape())
     output = tf.reshape(output, [-1, 8*dim, 4, 4])
 
