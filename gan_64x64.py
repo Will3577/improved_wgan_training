@@ -29,7 +29,7 @@ except NameError:
     xrange = range
 
 MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
-DIM = 64 # Model dimensionality
+DIM = 256#64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 64 # Batch size. Must be a multiple of N_GPUS
@@ -489,7 +489,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             # print(tf.shape(real_data_conv))
             real_data = tf.reshape(2*((tf.cast(real_data_conv, tf.float32)/255.)-.5), [BATCH_SIZE//len(DEVICES), OUTPUT_DIM])
             fake_data = Generator(BATCH_SIZE//len(DEVICES))
-            
+
             disc_real = Discriminator(real_data)
             disc_fake = Discriminator(fake_data)
 
