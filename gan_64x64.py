@@ -574,7 +574,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     fixed_noise = tf.constant(np.random.normal(size=(BATCH_SIZE, 128)).astype('float32'))
     all_fixed_noise_samples = []
     for device_index, device in enumerate(DEVICES):
-        n_samples = BATCH_SIZE / len(DEVICES)
+        n_samples = BATCH_SIZE // len(DEVICES)
         all_fixed_noise_samples.append(Generator(n_samples, noise=fixed_noise[device_index*n_samples:(device_index+1)*n_samples]))
     if tf.__version__.startswith('1.'):
         all_fixed_noise_samples = tf.concat(all_fixed_noise_samples, axis=0)
@@ -596,9 +596,9 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
     # Save a batch of ground-truth samples
     _x = inf_train_gen().next()
-    _x_r = session.run(real_data, feed_dict={real_data_conv: _x[:BATCH_SIZE/N_GPUS]})
-    _x_r = ((_x_r+1.)*(255.99/2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE/N_GPUS, 3, 64, 64)), 'samples_groundtruth.png')
+    _x_r = session.run(real_data, feed_dict={real_data_conv: _x[:BATCH_SIZE//N_GPUS]})
+    _x_r = ((_x_r+1.)*(255.99//2)).astype('int32')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, 64, 64)), 'samples_groundtruth.png')
 
 
     # Train loop
