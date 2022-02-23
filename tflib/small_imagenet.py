@@ -12,6 +12,7 @@ def make_generator(path, n_files, batch_size):
         random_state = np.random.RandomState(epoch_count[0])
         # print(files)
         random_state.shuffle(files)
+        print("Not Again!!!!!!!!!!")
         epoch_count[0] += 1
         for n, i in enumerate(files):
             # image = scipy.misc.imread("{}/{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
