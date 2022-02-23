@@ -27,7 +27,7 @@ try:
 except NameError:
     # Python 3, xrange is now named range
     xrange = range
-    
+
 MODE = 'wgan-gp' # dcgan, wgan, or wgan-gp
 DIM = 64 # Model dimensionality
 BATCH_SIZE = 50 # Batch size
@@ -231,7 +231,7 @@ with tf.Session() as session:
         else:
             disc_iters = CRITIC_ITERS
         for i in xrange(disc_iters):
-            _data = gen.next()
+            _data = next(gen)
             _disc_cost, _ = session.run(
                 [disc_cost, disc_train_op],
                 feed_dict={real_data: _data}
