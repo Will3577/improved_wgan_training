@@ -35,7 +35,7 @@ LAMBDA = .1 # Smaller lambda makes things faster for toy tasks, but isn't
             # necessary if you increase CRITIC_ITERS enough
 CRITIC_ITERS = 5 # How many critic iterations per generator iteration
 BATCH_SIZE = 256 # Batch size
-ITERS = 100000 # how many generator iterations to train for
+ITERS = 20# 100000 # how many generator iterations to train for
 
 lib.print_model_settings(locals().copy())
 
