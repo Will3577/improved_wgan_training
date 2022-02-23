@@ -21,13 +21,6 @@ import tflib.small_imagenet
 import tflib.ops.layernorm
 import tflib.plot
 
-# Download 64x64 ImageNet at http://image-net.org/small/download.php and
-# fill in the path to the extracted files here!
-DATA_DIR = './monuseg_256/'
-SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
-if len(DATA_DIR) == 0:
-    raise Exception('Please specify path to data directory in gan_64x64.py!')
-
 try:
     # Python 2
     xrange
@@ -42,8 +35,16 @@ N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 64 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
-IMG_SIZE = 64
-OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each iamge
+IMG_SIZE = 128
+OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each image
+
+
+# Download 64x64 ImageNet at http://image-net.org/small/download.php and
+# fill in the path to the extracted files here!
+DATA_DIR = './monuseg_'+str(IMG_SIZE)+'/'
+SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
+if len(DATA_DIR) == 0:
+    raise Exception('Please specify path to data directory in gan_64x64.py!')
 
 lib.print_model_settings(locals().copy())
 
