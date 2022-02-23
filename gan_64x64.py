@@ -32,7 +32,7 @@ MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
 DIM = 64#64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
-BATCH_SIZE = 64 # Batch size. Must be a multiple of N_GPUS
+BATCH_SIZE = 32 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 IMG_SIZE = 128
@@ -216,9 +216,9 @@ def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
         noise = tf.random_normal([n_samples, 128])
 
     output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim*4, noise)
-    print(output.get_shape(), noise.get_shape())
+    # print(output.get_shape(), noise.get_shape())
     output = tf.reshape(output, [-1, 8*dim, 4*2, 4*2])
-    print(output.get_shape())
+    # print(output.get_shape())
 
 
     output = ResidualBlock('Generator.Res1', 8*dim, 8*dim, 3, output, resample='up')
@@ -227,13 +227,13 @@ def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     output = ResidualBlock('Generator.Res4', 2*dim, 1*dim, 3, output, resample='up')
 
     output = Normalize('Generator.OutputN', [0,2,3], output)
-    print(output.get_shape())
+    # print(output.get_shape())
     output = tf.nn.relu(output)
-    print(output.get_shape())
+    # print(output.get_shape())
     output = lib.ops.conv2d.Conv2D('Generator.Output', 1*dim, 3, 3, output)
-    print(output.get_shape())
+    # print(output.get_shape())
     output = tf.tanh(output)
-    print(output.get_shape())
+    # print(output.get_shape())
     return tf.reshape(output, [-1, OUTPUT_DIM])
 
 def FCGenerator(n_samples, noise=None, FC_DIM=512):
