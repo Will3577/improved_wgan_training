@@ -8,6 +8,13 @@ import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
+    
 import tflib as lib
 import tflib.ops.linear
 import tflib.ops.conv2d
