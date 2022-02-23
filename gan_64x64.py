@@ -23,7 +23,8 @@ import tflib.plot
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
-DATA_DIR = './imagenet_64/'
+DATA_DIR = './monuseg_64/'
+SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/monuseg_gan/'
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
 
@@ -583,7 +584,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     def generate_image(iteration):
         samples = session.run(all_fixed_noise_samples)
         samples = ((samples+1.)*(255.99/2)).astype('int32')
-        lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), 'samples_{}.png'.format(iteration))
+        lib.save_images.save_images(samples.reshape((BATCH_SIZE, 3, 64, 64)), SAVE_FOLDER+'samples_{}.png'.format(iteration))
 
 
     # Dataset iterator
@@ -598,7 +599,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     _x = next(inf_train_gen())
     _x_r = session.run(real_data, feed_dict={real_data_conv: _x[:BATCH_SIZE//N_GPUS]})
     _x_r = ((_x_r+1.)*(255.99//2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, 64, 64)), 'samples_groundtruth.png')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, 64, 64)), SAVE_FOLDER+'samples_groundtruth.png')
 
 
     # Train loop
