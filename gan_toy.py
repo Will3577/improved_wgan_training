@@ -132,12 +132,12 @@ else:
         )
     clip_disc_weights = tf.group(*clip_ops)
 
-print "Generator params:"
+print ("Generator params:")
 for var in lib.params_with_name('Generator'):
-    print "\t{}\t{}".format(var.name, var.get_shape())
-print "Discriminator params:"
+    print ("\t{}\t{}".format(var.name, var.get_shape()))
+print ("Discriminator params:")
 for var in lib.params_with_name('Discriminator'):
-    print "\t{}\t{}".format(var.name, var.get_shape())
+    print ("\t{}\t{}".format(var.name, var.get_shape()))
 
 frame_index = [0]
 def generate_image(true_dist):
