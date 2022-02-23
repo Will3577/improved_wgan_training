@@ -58,7 +58,7 @@ def load(batch_size, test_batch_size, n_labelled=None):
 
     with gzip.open('/tmp/mnist.pkl.gz', 'rb') as f:
         u = pickle._Unpickler( f )
-        u.encoding = 'ascii'
+        u.encoding = 'latin1'
         train_data, dev_data, test_data = u.load()
 
     return (
