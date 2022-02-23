@@ -42,7 +42,7 @@ OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each image
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
 DATA_DIR = './monuseg_'+str(IMG_SIZE)+'/'
-SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets/'+DATA_DIR.split('.')[-1]
+SAVE_FOLDER = '/content/drive/MyDrive/UNSW_Research/Datasets'+DATA_DIR.split('.')[-1]
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_64x64.py!')
 
@@ -607,7 +607,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
     _x = next(inf_train_gen())
     _x_r = session.run(real_data, feed_dict={real_data_conv: _x[:BATCH_SIZE//N_GPUS]})
     _x_r = ((_x_r+1.)*(255.99//2)).astype('int32')
-    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, 64, 64)), SAVE_FOLDER+'samples_groundtruth.png')
+    lib.save_images.save_images(_x_r.reshape((BATCH_SIZE//N_GPUS, 3, IMG_SIZE, IMG_SIZE)), SAVE_FOLDER+'samples_groundtruth.png')
 
 
     # Train loop
