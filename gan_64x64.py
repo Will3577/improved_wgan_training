@@ -504,7 +504,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
                     minval=0.,
                     maxval=1.
                 )
-                print(tf.shape(fake_data), tf.shape(real_data))
+                print(tf.shape(fake_data)== tf.shape(real_data))
                 differences = fake_data - real_data
                 interpolates = real_data + (alpha*differences)
                 gradients = tf.gradients(Discriminator(interpolates), [interpolates])[0]
