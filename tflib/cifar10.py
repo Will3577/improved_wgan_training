@@ -14,8 +14,15 @@ except NameError:
 
 def unpickle(file):
     fo = open(file, 'rb')
-    dict = pickle.load(fo)
+    # dict = pickle.load(fo)
+    u = pickle._Unpickler( fo )
+    u.encoding = 'latin1'
+    dict = u.load()
     fo.close()
+
+    # u = pickle._Unpickler( fo )
+    # u.encoding = 'latin1'
+    # dict = u.load()
     return dict['data'], dict['labels']
 
 def cifar_generator(filenames, batch_size, data_dir):
