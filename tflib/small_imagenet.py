@@ -15,7 +15,7 @@ def make_generator(path, n_files, batch_size):
         print("Not Again!!!!!!!!!!")
         epoch_count[0] += 1
         for n, i in enumerate(files):
-            image = scipy.misc.imread("{}/{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
+            image = scipy.misc.imread("{}{}.png".format(path, str(i+1).zfill(len(str(n_files)))))
             # image = scipy.misc.imread("{}{}".format(path, img_list[i]))
             # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             images[n % batch_size] = image.transpose(2,0,1)
@@ -27,8 +27,8 @@ def load(batch_size, data_dir='/content/improved_wgan_training/imagenet_64/'):
     return (
         # make_generator(data_dir+'train_64/', 6880, batch_size),
         # make_generator(data_dir+'val_64/', 800, batch_size)
-        make_generator(data_dir+'train_64x64/', 6880, batch_size),
-        make_generator(data_dir+'val_64x64/', 800, batch_size)
+        make_generator(data_dir+'train_64x64/train_64x64/', 6880, batch_size),
+        make_generator(data_dir+'val_64x64/val_64x64/', 800, batch_size)
     )
 
 if __name__ == '__main__':
