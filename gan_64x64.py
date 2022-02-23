@@ -213,9 +213,9 @@ def ResidualBlock(name, input_dim, output_dim, filter_size, inputs, resample=Non
 
 def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     if noise is None:
-        noise = tf.random_normal([n_samples, 128*4])
+        noise = tf.random_normal([n_samples, 128])
 
-    output = lib.ops.linear.Linear('Generator.Input', 128*4, 4*4*8*dim, noise)
+    output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
     output = tf.reshape(output, [-1, 8*dim, 4, 4])
 
     output = ResidualBlock('Generator.Res1', 8*dim, 8*dim, 3, output, resample='up')
@@ -489,7 +489,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             # print(tf.shape(real_data_conv))
             real_data = tf.reshape(2*((tf.cast(real_data_conv, tf.float32)/255.)-.5), [BATCH_SIZE//len(DEVICES), OUTPUT_DIM])
             fake_data = Generator(BATCH_SIZE//len(DEVICES))
-
+            print(real_data.get_shape(), fake_data.get_shape())
             disc_real = Discriminator(real_data)
             disc_fake = Discriminator(fake_data)
 
