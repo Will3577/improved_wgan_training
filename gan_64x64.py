@@ -473,15 +473,16 @@ Generator, Discriminator = GeneratorAndDiscriminator()
 
 with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
-    real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 64, 64])
-    # print(tf.shape(all_real_data_conv))
-    # if tf.__version__.startswith('1.'):
-    #     split_real_data_conv = tf.split(all_real_data_conv, len(DEVICES))
-    # else:
-    #     split_real_data_conv = tf.split(0, len(DEVICES), all_real_data_conv)
+    all_real_data_conv = tf.placeholder(tf.int32, shape=[BATCH_SIZE, 3, 64, 64])
+    print(tf.shape(all_real_data_conv))
+    if tf.__version__.startswith('1.'):
+        split_real_data_conv = tf.split(all_real_data_conv, len(DEVICES))
+        print("????")
+    else:
+        split_real_data_conv = tf.split(0, len(DEVICES), all_real_data_conv)
     gen_costs, disc_costs = [],[]
 
-    for device_index, (device, real_data_conv) in enumerate(zip(DEVICES, real_data_conv)):
+    for device_index, (device, real_data_conv) in enumerate(zip(DEVICES, split_real_data_conv)):
         with tf.device(device):
             print(tf.shape(real_data_conv))
             real_data = tf.reshape(2*((tf.cast(real_data_conv, tf.float32)/255.)-.5), [BATCH_SIZE//len(DEVICES), OUTPUT_DIM])
