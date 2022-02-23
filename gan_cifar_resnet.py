@@ -48,7 +48,7 @@ ITERS = 100000 # How many iterations to train for
 DIM_G = 128 # Generator dimensionality
 DIM_D = 128 # Critic dimensionality
 NORMALIZATION_G = True # Use batchnorm in generator?
-NORMALIZATION_D = False # Use batchnorm (or layernorm) in critic?
+NORMALIZATION_D = True # Use batchnorm (or layernorm) in critic?
 OUTPUT_DIM = 3072 # Number of pixels in CIFAR10 (32*32*3)
 LR = 2e-4 # Initial learning rate
 DECAY = True # Whether to decay LR over learning
@@ -56,7 +56,7 @@ N_CRITIC = 5 # Critic steps per generator steps
 INCEPTION_FREQUENCY = 1000 # How frequently to calculate Inception score
 
 CONDITIONAL = True # Whether to train a conditional or unconditional model
-ACGAN = True # If CONDITIONAL, whether to use ACGAN or "vanilla" conditioning
+ACGAN = False # If CONDITIONAL, whether to use ACGAN or "vanilla" conditioning
 ACGAN_SCALE = 1. # How to scale the critic's ACGAN loss relative to WGAN loss
 ACGAN_SCALE_G = 0.1 # How to scale generator's ACGAN loss relative to WGAN loss
 
