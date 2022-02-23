@@ -14,8 +14,17 @@ import tflib.inception_score
 import tflib.plot
 
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 import sklearn.datasets
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
 
 import time
 import functools
@@ -25,11 +34,11 @@ locale.setlocale(locale.LC_ALL, '')
 # Download CIFAR-10 (Python version) at
 # https://www.cs.toronto.edu/~kriz/cifar.html and fill in the path to the
 # extracted files here!
-DATA_DIR = '/home/ishaan/data/cifar10'
+DATA_DIR = './cifar-10-batches-py/cifar-10-batches-py'
 if len(DATA_DIR) == 0:
     raise Exception('Please specify path to data directory in gan_cifar.py!')
 
-N_GPUS = 2
+N_GPUS = 1
 if N_GPUS not in [1,2]:
     raise Exception('Only 1 or 2 GPUs supported!')
 
