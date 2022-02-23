@@ -7,6 +7,13 @@ import pickle
 # import cPickle as pickle
 import urllib.request
 
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
+
 def mnist_generator(data, batch_size, n_labelled, limit=None):
     images, targets = data
 
