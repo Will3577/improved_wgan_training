@@ -246,7 +246,7 @@ with tf.Session() as session:
             _ = session.run(gen_train_op)
         # Train critic
         for i in xrange(CRITIC_ITERS):
-            _data = next()
+            _data = next(gen)
             _disc_cost, _ = session.run(
                 [disc_cost, disc_train_op],
                 feed_dict={real_data: _data}
