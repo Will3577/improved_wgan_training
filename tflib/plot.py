@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 import collections
 import time
-import piclke
+import pickle
 # import cPickle as pickle
 
 _since_beginning = collections.defaultdict(lambda: {})
