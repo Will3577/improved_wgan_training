@@ -28,6 +28,7 @@ def save_images(X, save_path):
         img = np.zeros((h*nh, w*nw, 3))
     elif X.ndim == 3:
         h, w = X[0].shape[:2]
+        print(h,nh,w,nw)
         img = np.zeros((h*nh, w*nw))
 
     for n, x in enumerate(X):
