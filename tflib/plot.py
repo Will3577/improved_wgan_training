@@ -24,10 +24,11 @@ def flush():
 
 	for name, vals in _since_last_flush.items():
 		# name = list(name)
-		print(type(name),name)
+		print(type(name),name,vals.values())
 		prints.append("{} {}".format(name, np.mean(vals.values())))
 		_since_beginning[name].update(vals)
 		print(_since_beginning[name].keys())
+
 		x_vals = np.sort(_since_beginning[name].keys())
 		y_vals = [_since_beginning[name][x] for x in x_vals]
 
