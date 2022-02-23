@@ -618,7 +618,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
         else:
             disc_iters = CRITIC_ITERS
         for i in xrange(disc_iters):
-            _data = gen.next()
+            _data = next(gen)
             _disc_cost, _ = session.run([disc_cost, disc_train_op], feed_dict={all_real_data_conv: _data})
             if MODE == 'wgan':
                 _ = session.run([clip_disc_weights])
