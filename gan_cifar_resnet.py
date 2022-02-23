@@ -198,14 +198,14 @@ with tf.Session() as session:
     fake_data_splits = []
     for i, device in enumerate(DEVICES):
         with tf.device(device):
-            fake_data_splits.append(Generator(BATCH_SIZE/len(DEVICES), labels_splits[i]))
+            fake_data_splits.append(Generator(BATCH_SIZE//len(DEVICES), labels_splits[i]))
 
     all_real_data = tf.reshape(2*((tf.cast(all_real_data_int, tf.float32)/256.)-.5), [BATCH_SIZE, OUTPUT_DIM])
-    all_real_data += tf.random_uniform(shape=[BATCH_SIZE,OUTPUT_DIM],minval=0.,maxval=1./128) # dequantize
+    all_real_data += tf.random_uniform(shape=[BATCH_SIZE,OUTPUT_DIM],minval=0.,maxval=1.//128) # dequantize
     all_real_data_splits = tf.split(all_real_data, len(DEVICES), axis=0)
 
-    DEVICES_B = DEVICES[:len(DEVICES)/2]
-    DEVICES_A = DEVICES[len(DEVICES)/2:]
+    DEVICES_B = DEVICES[:len(DEVICES)//2]
+    DEVICES_A = DEVICES[len(DEVICES)//2:]
 
     disc_costs = []
     disc_acgan_costs = []
@@ -226,18 +226,18 @@ with tf.Session() as session:
                 labels_splits[len(DEVICES_A)+i]
             ], axis=0)
             disc_all, disc_all_acgan = Discriminator(real_and_fake_data, real_and_fake_labels)
-            disc_real = disc_all[:BATCH_SIZE/len(DEVICES_A)]
-            disc_fake = disc_all[BATCH_SIZE/len(DEVICES_A):]
+            disc_real = disc_all[:BATCH_SIZE//len(DEVICES_A)]
+            disc_fake = disc_all[BATCH_SIZE//len(DEVICES_A):]
             disc_costs.append(tf.reduce_mean(disc_fake) - tf.reduce_mean(disc_real))
             if CONDITIONAL and ACGAN:
                 disc_acgan_costs.append(tf.reduce_mean(
-                    tf.nn.sparse_softmax_cross_entropy_with_logits(logits=disc_all_acgan[:BATCH_SIZE/len(DEVICES_A)], labels=real_and_fake_labels[:BATCH_SIZE/len(DEVICES_A)])
+                    tf.nn.sparse_softmax_cross_entropy_with_logits(logits=disc_all_acgan[:BATCH_SIZE//len(DEVICES_A)], labels=real_and_fake_labels[:BATCH_SIZE//len(DEVICES_A)])
                 ))
                 disc_acgan_accs.append(tf.reduce_mean(
                     tf.cast(
                         tf.equal(
-                            tf.to_int32(tf.argmax(disc_all_acgan[:BATCH_SIZE/len(DEVICES_A)], dimension=1)),
-                            real_and_fake_labels[:BATCH_SIZE/len(DEVICES_A)]
+                            tf.to_int32(tf.argmax(disc_all_acgan[:BATCH_SIZE//len(DEVICES_A)], dimension=1)),
+                            real_and_fake_labels[:BATCH_SIZE//len(DEVICES_A)]
                         ),
                         tf.float32
                     )
@@ -245,8 +245,8 @@ with tf.Session() as session:
                 disc_acgan_fake_accs.append(tf.reduce_mean(
                     tf.cast(
                         tf.equal(
-                            tf.to_int32(tf.argmax(disc_all_acgan[BATCH_SIZE/len(DEVICES_A):], dimension=1)),
-                            real_and_fake_labels[BATCH_SIZE/len(DEVICES_A):]
+                            tf.to_int32(tf.argmax(disc_all_acgan[BATCH_SIZE//len(DEVICES_A):], dimension=1)),
+                            real_and_fake_labels[BATCH_SIZE//len(DEVICES_A):]
                         ),
                         tf.float32
                     )
@@ -262,7 +262,7 @@ with tf.Session() as session:
                 labels_splits[len(DEVICES_A)+i],
             ], axis=0)
             alpha = tf.random_uniform(
-                shape=[BATCH_SIZE/len(DEVICES_A),1], 
+                shape=[BATCH_SIZE//len(DEVICES_A),1], 
                 minval=0.,
                 maxval=1.
             )
@@ -273,11 +273,11 @@ with tf.Session() as session:
             gradient_penalty = 10*tf.reduce_mean((slopes-1.)**2)
             disc_costs.append(gradient_penalty)
 
-    disc_wgan = tf.add_n(disc_costs) / len(DEVICES_A)
+    disc_wgan = tf.add_n(disc_costs) // len(DEVICES_A)
     if CONDITIONAL and ACGAN:
-        disc_acgan = tf.add_n(disc_acgan_costs) / len(DEVICES_A)
-        disc_acgan_acc = tf.add_n(disc_acgan_accs) / len(DEVICES_A)
-        disc_acgan_fake_acc = tf.add_n(disc_acgan_fake_accs) / len(DEVICES_A)
+        disc_acgan = tf.add_n(disc_acgan_costs) // len(DEVICES_A)
+        disc_acgan_acc = tf.add_n(disc_acgan_accs) // len(DEVICES_A)
+        disc_acgan_fake_acc = tf.add_n(disc_acgan_fake_accs) // len(DEVICES_A)
         disc_cost = disc_wgan + (ACGAN_SCALE*disc_acgan)
     else:
         disc_acgan = tf.constant(0.)
@@ -288,7 +288,7 @@ with tf.Session() as session:
     disc_params = lib.params_with_name('Discriminator.')
 
     if DECAY:
-        decay = tf.maximum(0., 1.-(tf.cast(_iteration, tf.float32)/ITERS))
+        decay = tf.maximum(0., 1.-(tf.cast(_iteration, tf.float32)//ITERS))
     else:
         decay = 1.
 
@@ -296,7 +296,7 @@ with tf.Session() as session:
     gen_acgan_costs = []
     for device in DEVICES:
         with tf.device(device):
-            n_samples = GEN_BS_MULTIPLE * BATCH_SIZE / len(DEVICES)
+            n_samples = GEN_BS_MULTIPLE * BATCH_SIZE // len(DEVICES)
             fake_labels = tf.cast(tf.random_uniform([n_samples])*10, tf.int32)
             if CONDITIONAL and ACGAN:
                 disc_fake, disc_fake_acgan = Discriminator(Generator(n_samples,fake_labels), fake_labels)
@@ -306,9 +306,9 @@ with tf.Session() as session:
                 ))
             else:
                 gen_costs.append(-tf.reduce_mean(Discriminator(Generator(n_samples, fake_labels), fake_labels)[0]))
-    gen_cost = (tf.add_n(gen_costs) / len(DEVICES))
+    gen_cost = (tf.add_n(gen_costs) // len(DEVICES))
     if CONDITIONAL and ACGAN:
-        gen_cost += (ACGAN_SCALE_G*(tf.add_n(gen_acgan_costs) / len(DEVICES)))
+        gen_cost += (ACGAN_SCALE_G*(tf.add_n(gen_acgan_costs) // len(DEVICES)))
 
 
     gen_opt = tf.train.AdamOptimizer(learning_rate=LR*decay, beta1=0., beta2=0.9)
@@ -325,7 +325,7 @@ with tf.Session() as session:
     fixed_noise_samples = Generator(100, fixed_labels, noise=fixed_noise)
     def generate_image(frame, true_dist):
         samples = session.run(fixed_noise_samples)
-        samples = ((samples+1.)*(255./2)).astype('int32')
+        samples = ((samples+1.)*(255.//2)).astype('int32')
         lib.save_images.save_images(samples.reshape((100, 3, 32, 32)), 'samples_{}.png'.format(frame))
 
     # Function for calculating inception score
@@ -333,10 +333,10 @@ with tf.Session() as session:
     samples_100 = Generator(100, fake_labels_100)
     def get_inception_score(n):
         all_samples = []
-        for i in xrange(n/100):
+        for i in xrange(n//100):
             all_samples.append(session.run(samples_100))
         all_samples = np.concatenate(all_samples, axis=0)
-        all_samples = ((all_samples+1.)*(255.99/2)).astype('int32')
+        all_samples = ((all_samples+1.)*(255.99//2)).astype('int32')
         all_samples = all_samples.reshape((-1, 3, 32, 32)).transpose(0,2,3,1)
         return lib.inception_score.get_inception_score(list(all_samples))
 
