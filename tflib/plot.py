@@ -25,19 +25,21 @@ def flush():
 	for name, vals in _since_last_flush.items():
 		# name = list(name)
 		print(type(name),name)
-		# prints.append("{}\t{}".format(name, np.mean(vals.values())))
-	# 	_since_beginning[name].update(vals)
+		prints.append("{} {}".format(name, np.mean(vals.values())))
+		_since_beginning[name].update(vals)
+		print(_since_beginning[name].keys())
+		x_vals = np.sort(_since_beginning[name].keys())
+		y_vals = [_since_beginning[name][x] for x in x_vals]
 
-	# 	x_vals = np.sort(_since_beginning[name].keys())
-	# 	y_vals = [_since_beginning[name][x] for x in x_vals]
+		plt.clf()
+		plt.plot(x_vals, y_vals)
+		plt.xlabel('iteration')
+		plt.ylabel(name)
+		plt.savefig(name.replace(' ', '_')+'.jpg')
 
-	# 	plt.clf()
-	# 	plt.plot(x_vals, y_vals)
-	# 	plt.xlabel('iteration')
-	# 	plt.ylabel(name)
-	# 	plt.savefig(name.replace(' ', '_')+'.jpg')
+	# print ("iter {} {}".format(_iter[0], prints))
+	print ("iter {} {}".format(_iter[0], prints))
 
-	# print ("iter {}\t{}".format(_iter[0], "\t".join(prints)))
 	_since_last_flush.clear()
 
 	with open('log.pkl', 'wb') as f:
