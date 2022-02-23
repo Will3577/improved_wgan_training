@@ -23,7 +23,7 @@ def make_generator(path, n_files, batch_size):
                 yield (images,)
     return get_epoch
 
-def load(batch_size, data_dir='../monuseg64/'):
+def load(batch_size, data_dir='./monuseg64/'):
     return (
         make_generator(data_dir+'train_64/', 6880, batch_size),
         make_generator(data_dir+'val_64/', 800, batch_size)
