@@ -57,7 +57,9 @@ def load(batch_size, test_batch_size, n_labelled=None):
         urllib.request.urlretrieve(url, filepath)
 
     with gzip.open('/tmp/mnist.pkl.gz', 'rb') as f:
-        train_data, dev_data, test_data = pickle.load(f)
+        u = pickle._Unpickler( f )
+        u.encoding = 'ascii'
+        train_data, dev_data, test_data = u.load()
 
     return (
         mnist_generator(train_data, batch_size, n_labelled), 
