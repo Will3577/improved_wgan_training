@@ -1,7 +1,16 @@
 import tflib as lib
 
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
+try:
+    # Python 2
+    xrange
+except NameError:
+    # Python 3, xrange is now named range
+    xrange = range
 
 def Layernorm(name, norm_axes, inputs):
     mean, var = tf.nn.moments(inputs, norm_axes, keep_dims=True)
