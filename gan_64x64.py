@@ -489,7 +489,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             # print(tf.shape(real_data_conv))
             real_data = tf.reshape(2*((tf.cast(real_data_conv, tf.float32)/255.)-.5), [BATCH_SIZE//len(DEVICES), OUTPUT_DIM])
             fake_data = Generator(BATCH_SIZE//len(DEVICES))
-
+            
             disc_real = Discriminator(real_data)
             disc_fake = Discriminator(fake_data)
 
