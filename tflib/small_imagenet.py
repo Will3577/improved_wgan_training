@@ -8,9 +8,9 @@ def make_generator(path, n_files, batch_size):
         img_list = os.listdir(path)
 
         images = np.zeros((batch_size, 3, 64, 64), dtype='int32')
-        files = range(n_files)
+        files = list(range(n_files))
         random_state = np.random.RandomState(epoch_count[0])
-        print(files)
+        # print(files)
         random_state.shuffle(files)
         epoch_count[0] += 1
         for n, i in enumerate(files):
