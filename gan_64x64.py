@@ -34,8 +34,8 @@ CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 32 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
-LAMBDA = 15#10 # Gradient penalty lambda hyperparameter
-IMG_SIZE = 128
+LAMBDA = 10 # Gradient penalty lambda hyperparameter
+IMG_SIZE = 64
 OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each image
 NOISE_SIZE = 128
 
@@ -645,7 +645,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             lib.plot.plot('dev disc cost', np.mean(dev_disc_costs))
 
             generate_image(iteration)
-            # saver.save(session, 'Generator', global_step=iteration, max_to_keep=4)
+            saver.save(session, 'Generator', global_step=iteration, max_to_keep=4)
 
         if (iteration < 5) or (iteration % 200 == 199):
             lib.plot.flush()
