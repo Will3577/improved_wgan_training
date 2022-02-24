@@ -580,7 +580,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
         raise Exception()
 
     # For generating samples
-    fixed_noise = tf.constant(np.random.normal(size=(BATCH_SIZE, 128)).astype('float32'))
+    fixed_noise = tf.constant(np.random.normal(size=(BATCH_SIZE, 128*4)).astype('float32'))
     all_fixed_noise_samples = []
     for device_index, device in enumerate(DEVICES):
         n_samples = BATCH_SIZE // len(DEVICES)
