@@ -29,15 +29,15 @@ except NameError:
     xrange = range
 
 MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
-DIM = 64*2#64 # Model dimensionality
+DIM = 64#64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
-BATCH_SIZE = 16#32 # Batch size. Must be a multiple of N_GPUS
+BATCH_SIZE = 32 # Batch size. Must be a multiple of N_GPUS
 ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 IMG_SIZE = 128
 OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each image
-NOISE_SIZE = 128*4
+NOISE_SIZE = 128*2
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
