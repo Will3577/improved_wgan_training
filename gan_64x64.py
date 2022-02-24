@@ -37,7 +37,7 @@ ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 IMG_SIZE = 128
 OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each image
-NOISE_SIZE = 128*2
+NOISE_SIZE = 128
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
@@ -256,9 +256,9 @@ def DCGANGenerator(n_samples, noise=None, dim=DIM, bn=True, nonlinearity=tf.nn.r
     lib.ops.linear.set_weights_stdev(0.02)
 
     if noise is None:
-        noise = tf.random_normal([n_samples, 128])
+        noise = tf.random_normal([n_samples, NOISE_SIZE])
 
-    output = lib.ops.linear.Linear('Generator.Input', 128, 4*4*8*dim, noise)
+    output = lib.ops.linear.Linear('Generator.Input', NOISE_SIZE, 4*4*8*dim, noise)
     output = tf.reshape(output, [-1, 8*dim, 4, 4])
     if bn:
         output = Normalize('Generator.BN1', [0,2,3], output)
