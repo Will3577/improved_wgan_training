@@ -645,7 +645,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             lib.plot.plot('dev disc cost', np.mean(dev_disc_costs))
 
             generate_image(iteration)
-            saver.save(session, 'Generator', global_step=iteration, max_to_keep=4)
+            # saver.save(session, 'Generator', global_step=iteration, max_to_keep=4)
 
         if (iteration < 5) or (iteration % 200 == 199):
             lib.plot.flush()
