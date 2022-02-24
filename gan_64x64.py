@@ -37,7 +37,7 @@ ITERS = 200000 # How many iterations to train for
 LAMBDA = 10 # Gradient penalty lambda hyperparameter
 IMG_SIZE = 128
 OUTPUT_DIM = IMG_SIZE*IMG_SIZE*3 # Number of pixels in each image
-
+NOISE_SIZE = 128*4
 
 # Download 64x64 ImageNet at http://image-net.org/small/download.php and
 # fill in the path to the extracted files here!
@@ -213,7 +213,7 @@ def ResidualBlock(name, input_dim, output_dim, filter_size, inputs, resample=Non
 
 def GoodGenerator(n_samples, noise=None, dim=DIM, nonlinearity=tf.nn.relu):
     if noise is None:
-        noise = tf.random_normal([n_samples, 128*4])
+        noise = tf.random_normal([n_samples, NOISE_SIZE])
 
     output = lib.ops.linear.Linear('Generator.Input', 128*4, 4*4*8*dim*4, noise)
     # print(output.get_shape(), noise.get_shape())
@@ -580,7 +580,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
         raise Exception()
 
     # For generating samples
-    fixed_noise = tf.constant(np.random.normal(size=(BATCH_SIZE, 128*4)).astype('float32'))
+    fixed_noise = tf.constant(np.random.normal(size=(BATCH_SIZE, NOISE_SIZE)).astype('float32'))
     all_fixed_noise_samples = []
     for device_index, device in enumerate(DEVICES):
         n_samples = BATCH_SIZE // len(DEVICES)
