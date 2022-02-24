@@ -29,7 +29,7 @@ except NameError:
     xrange = range
 
 MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
-DIM = 64#64 # Model dimensionality
+DIM = 64*2#64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 32 # Batch size. Must be a multiple of N_GPUS
@@ -611,6 +611,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
 
 
     # Train loop
+    saver = tf.compat.v1.train.Saver()
     session.run(tf.initialize_all_variables())
     gen = inf_train_gen()
     for iteration in xrange(ITERS):
@@ -644,6 +645,7 @@ with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as session:
             lib.plot.plot('dev disc cost', np.mean(dev_disc_costs))
 
             generate_image(iteration)
+            saver.save(session, 'Generator', global_step=iteration, max_to_keep=4)
 
         if (iteration < 5) or (iteration % 200 == 199):
             lib.plot.flush()
