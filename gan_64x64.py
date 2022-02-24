@@ -29,7 +29,7 @@ except NameError:
     xrange = range
 
 MODE = 'wgan-gp' # dcgan, wgan, wgan-gp, lsgan
-DIM = 64#64 # Model dimensionality
+DIM = 64*2#64 # Model dimensionality
 CRITIC_ITERS = 5 # How many iterations to train the critic for
 N_GPUS = 1 # Number of GPUs
 BATCH_SIZE = 32 # Batch size. Must be a multiple of N_GPUS
